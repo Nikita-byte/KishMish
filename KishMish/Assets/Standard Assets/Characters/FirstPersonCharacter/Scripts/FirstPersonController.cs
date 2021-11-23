@@ -28,6 +28,9 @@ namespace UnityStandardAssets.Characters.FirstPerson
         [SerializeField] private AudioClip[] m_FootstepSounds;    // an array of footstep sounds that will be randomly selected from.
         [SerializeField] private AudioClip m_JumpSound;           // the sound played when character leaves the ground.
         [SerializeField] private AudioClip m_LandSound;           // the sound played when character touches back on ground.
+        [SerializeField] private LayerMask _interactableObjectsMask;
+        [SerializeField] private float _distanceForInteract = 2.0f;
+        [SerializeField] private GameObject _handPosition;
 
         private Camera m_Camera;
         private bool m_Jump;
@@ -42,6 +45,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
         private float m_NextStep;
         private bool m_Jumping;
         private AudioSource m_AudioSource;
+        private PlayerUI _playerUI;
 
         // Use this for initialization
         private void Start()
@@ -56,6 +60,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
             m_Jumping = false;
             m_AudioSource = GetComponent<AudioSource>();
 			m_MouseLook.Init(transform , m_Camera.transform);
+            _playerUI = FindObjectOfType<PlayerUI>();
         }
 
 
@@ -80,6 +85,9 @@ namespace UnityStandardAssets.Characters.FirstPerson
             {
                 m_MoveDir.y = 0f;
             }
+
+            CheckInteractableObjects();    // Метод для проверки доступных активных объектов
+
 
             m_PreviouslyGrounded = m_CharacterController.isGrounded;
         }
@@ -130,6 +138,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
             ProgressStepCycle(speed);
             UpdateCameraPosition(speed);
+            //CheckInteractableObjects();    // Метод для проверки доступных активных объектов
 
             m_MouseLook.UpdateCursorLock();
         }
@@ -238,6 +247,24 @@ namespace UnityStandardAssets.Characters.FirstPerson
         private void RotateView()
         {
             m_MouseLook.LookRotation (transform, m_Camera.transform);
+        }
+
+        private void CheckInteractableObjects()
+        {
+            if (Physics.Raycast(m_Camera.transform.position, m_Camera.transform.forward, out RaycastHit hit, _distanceForInteract, _interactableObjectsMask))
+            {
+                _playerUI.CanInteract(true);
+
+                if (Input.GetKeyDown(KeyCode.E))
+                {
+                    BaseInteractable _activeObject = hit.transform.gameObject.GetComponent<BaseInteractable>();
+
+                    if (_activeObject != null)
+                    {
+                        _activeObject.Interact(_handPosition);
+                    }
+                }
+            }
         }
 
 
