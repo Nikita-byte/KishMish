@@ -11,7 +11,6 @@ namespace UnityStandardAssets.Characters.FirstPerson
         public override void Interact(GameObject position)
         {
             _rigidBody.AddForce(position.transform.forward * _forceVelocity, ForceMode.Force);
-
             Debug.Log("Kick");
         }
     }

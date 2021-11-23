@@ -9,7 +9,6 @@ namespace UnityStandardAssets.Characters.FirstPerson
         public override void Interact(GameObject position)
         {
             gameObject.SetActive(false);
-
             Debug.Log("Pick");
         }
     }

@@ -88,7 +88,6 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
             CheckInteractableObjects();    // Метод для проверки доступных активных объектов
 
-
             m_PreviouslyGrounded = m_CharacterController.isGrounded;
         }
 
@@ -138,7 +137,6 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
             ProgressStepCycle(speed);
             UpdateCameraPosition(speed);
-            //CheckInteractableObjects();    // Метод для проверки доступных активных объектов
 
             m_MouseLook.UpdateCursorLock();
         }
@@ -264,6 +262,10 @@ namespace UnityStandardAssets.Characters.FirstPerson
                         _activeObject.Interact(_handPosition);
                     }
                 }
+            }
+            else
+            {
+                _playerUI.CanInteract(false);
             }
         }
 
