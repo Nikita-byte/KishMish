@@ -29,7 +29,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
         [SerializeField] private AudioClip m_JumpSound;           // the sound played when character leaves the ground.
         [SerializeField] private AudioClip m_LandSound;           // the sound played when character touches back on ground.
         [SerializeField] private LayerMask _interactableObjectsMask;
-        [SerializeField] private float _distanceForInteract = 2.0f;
+        //[SerializeField] private float _distanceForInteract = 2.0f;
         [SerializeField] private GameObject _handPosition;
 
         private Camera m_Camera;
@@ -45,7 +45,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
         private float m_NextStep;
         private bool m_Jumping;
         private AudioSource m_AudioSource;
-        private PlayerUI _playerUI;
+        //private PlayerUI _playerUI;
 
         // Use this for initialization
         private void Start()
@@ -60,7 +60,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
             m_Jumping = false;
             m_AudioSource = GetComponent<AudioSource>();
 			m_MouseLook.Init(transform , m_Camera.transform);
-            _playerUI = FindObjectOfType<PlayerUI>();
+            //_playerUI = FindObjectOfType<PlayerUI>();
         }
 
 
@@ -249,41 +249,41 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
         private void CheckInteractableObjects()
         {
-            if (Physics.Raycast(m_Camera.transform.position, m_Camera.transform.forward, out RaycastHit hit, _distanceForInteract, _interactableObjectsMask))
-            {
-                _playerUI.CanInteract(true);
+            //if (Physics.Raycast(m_Camera.transform.position, m_Camera.transform.forward, out RaycastHit hit, _distanceForInteract, _interactableObjectsMask))
+            //{
+            //    //_playerUI.CanInteract(true);
 
-                if (Input.GetKeyDown(KeyCode.E))
-                {
-                    BaseInteractable _activeObject = hit.transform.gameObject.GetComponent<BaseInteractable>();
+            //    if (Input.GetKeyDown(KeyCode.E))
+            //    {
+            //        BaseInteractable _activeObject = hit.transform.gameObject.GetComponent<BaseInteractable>();
 
-                    if (_activeObject != null)
-                    {
-                        _activeObject.Interact(_handPosition);
-                    }
-                }
-            }
-            else
-            {
-                _playerUI.CanInteract(false);
-            }
+            //        if (_activeObject != null)
+            //        {
+            //            _activeObject.Interact(_handPosition);
+            //        }
+            //    }
+            //}
+            //else
+            //{
+            //    //_playerUI.CanInteract(false);
+            //}
         }
 
 
-        private void OnControllerColliderHit(ControllerColliderHit hit)
-        {
-            Rigidbody body = hit.collider.attachedRigidbody;
-            //dont move the rigidbody if the character is on top of it
-            if (m_CollisionFlags == CollisionFlags.Below)
-            {
-                return;
-            }
+        //private void OnControllerColliderHit(ControllerColliderHit hit)
+        //{
+        //    Rigidbody body = hit.collider.attachedRigidbody;
+        //    //dont move the rigidbody if the character is on top of it
+        //    if (m_CollisionFlags == CollisionFlags.Below)
+        //    {
+        //        return;
+        //    }
 
-            if (body == null || body.isKinematic)
-            {
-                return;
-            }
-            body.AddForceAtPosition(m_CharacterController.velocity*0.1f, hit.point, ForceMode.Impulse);
-        }
+        //    if (body == null || body.isKinematic)
+        //    {
+        //        return;
+        //    }
+        //    body.AddForceAtPosition(m_CharacterController.velocity*0.1f, hit.point, ForceMode.Impulse);
+        //}
     }
 }
